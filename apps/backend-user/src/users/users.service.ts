@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 
 import { CreatedUserDto } from './dto/created-user.dto';
@@ -14,6 +15,7 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
+    private jwtService: JwtService,
   ) {}
 
   async signup(signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
@@ -51,7 +53,7 @@ export class UsersService {
 
     return new CreatedUserDto({
       ...createdUser,
-      access_token: 'lorem',
+      access_token: this.generateAccessToken(createdUser),
     });
   }
 
@@ -71,8 +73,14 @@ export class UsersService {
     }
 
     return {
-      access_token: 'lorem',
+      access_token: this.generateAccessToken(user),
     };
+  }
+
+  private generateAccessToken(user: UserEntity) {
+    const payload = { name: user.name, email: user.email, sub: user.id };
+
+    return this.jwtService.sign(payload);
   }
 
   private findByEmail(email: string): Promise<UserEntity> {
