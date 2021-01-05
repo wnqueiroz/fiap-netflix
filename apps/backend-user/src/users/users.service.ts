@@ -18,7 +18,7 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
+  async signUp(signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
     const { name, password, passwordConfirmation, email } = signUpUserDto;
 
     const userExists = await this.findByEmail(email);
@@ -57,7 +57,7 @@ export class UsersService {
     });
   }
 
-  async signin(signInUserDto: SingInUserDto): Promise<LoggedUserDto> {
+  async signIn(signInUserDto: SingInUserDto): Promise<LoggedUserDto> {
     const { email } = signInUserDto;
 
     const user = await this.findByEmail(email);

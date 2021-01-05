@@ -22,13 +22,13 @@ export class UsersController {
 
   @Post('signin')
   @HttpCode(200)
-  async signin(@Body() signInUserDto: SingInUserDto): Promise<LoggedUserDto> {
-    return this.usersService.signin(signInUserDto);
+  async signIn(@Body() signInUserDto: SingInUserDto): Promise<LoggedUserDto> {
+    return this.usersService.signIn(signInUserDto);
   }
 
   @Post('signup')
   @UseInterceptors(ClassSerializerInterceptor)
-  async signup(@Body() signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
-    return this.usersService.signup(signUpUserDto);
+  async signUp(@Body() signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
+    return this.usersService.signUp(signUpUserDto);
   }
 }
