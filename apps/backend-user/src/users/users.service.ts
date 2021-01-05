@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 
+import * as bcrypt from 'bcrypt';
+
 import { CreatedUserDto } from './dto/created-user.dto';
 import { LoggedUserDto } from './dto/logged-user.dto';
 import { SingInUserDto } from './dto/signin-user.dto';
@@ -47,7 +49,8 @@ export class UsersService {
 
     user.email = email;
     user.name = name;
-    user.password = password;
+    user.salt = await bcrypt.genSalt();
+    user.password = await this.hashPassword(password, user.salt);
 
     const createdUser = await this.create(user);
 
@@ -58,11 +61,11 @@ export class UsersService {
   }
 
   async signIn(signInUserDto: SingInUserDto): Promise<LoggedUserDto> {
-    const { email } = signInUserDto;
+    const { email, password } = signInUserDto;
 
     const user = await this.findByEmail(email);
 
-    if (!user) {
+    if (!user || !user.checkPassword(password)) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -75,6 +78,10 @@ export class UsersService {
     return {
       access_token: this.generateAccessToken(user),
     };
+  }
+
+  private async hashPassword(password: string, salt: string): Promise<string> {
+    return bcrypt.hash(password, salt);
   }
 
   private generateAccessToken(user: UserEntity) {

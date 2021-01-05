@@ -12,6 +12,9 @@ export class CreatedUserDto {
   @Exclude()
   password: string;
 
+  @Exclude()
+  salt: string;
+
   constructor(partial: Partial<CreatedUserDto>) {
     Object.assign(this, partial);
   }
