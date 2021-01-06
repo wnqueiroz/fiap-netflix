@@ -1,9 +1,13 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import appConfig from '../config/app.config';
+
+import { UsersService } from './users.service';
+import { RequestUserDto } from './dto/request-user.dto';
+import { JwtPayloadDto } from './dto/jwt-payload.dto';
 
 ConfigModule.forRoot({
   load: [appConfig],
@@ -11,7 +15,7 @@ ConfigModule.forRoot({
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private usersService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -20,8 +24,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async validate(payload: any): Promise<any> {
-    return { name: payload.name, email: payload.email, id: payload.sub };
+  async validate(payload: JwtPayloadDto): Promise<RequestUserDto> {
+    const id = payload.sub;
+
+    const user = await this.usersService.findById(id);
+
+    if (!user) throw new UnauthorizedException('User not exists');
+
+    const { name, email } = user;
+
+    return { name, email, id };
   }
 }

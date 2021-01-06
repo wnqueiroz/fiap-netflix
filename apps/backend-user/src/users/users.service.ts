@@ -11,6 +11,7 @@ import { SingInUserDto } from './dto/signin-user.dto';
 import { SignUpUserDto } from './dto/signup-user.dto';
 
 import { UserEntity } from './user.entity';
+import { JwtPayloadDto } from './dto/jwt-payload.dto';
 
 @Injectable()
 export class UsersService {
@@ -85,9 +86,21 @@ export class UsersService {
   }
 
   private generateAccessToken(user: UserEntity) {
-    const payload = { name: user.name, email: user.email, sub: user.id };
+    const payload: JwtPayloadDto = {
+      name: user.name,
+      email: user.email,
+      sub: user.id,
+    };
 
     return this.jwtService.sign(payload);
+  }
+
+  findById(id: string): Promise<UserEntity> {
+    return this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   private findByEmail(email: string): Promise<UserEntity> {
