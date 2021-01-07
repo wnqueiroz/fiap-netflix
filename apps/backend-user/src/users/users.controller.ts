@@ -6,7 +6,6 @@ import {
   HttpCode,
   Post,
   UseGuards,
-  Request,
   UseInterceptors,
 } from '@nestjs/common';
 
@@ -15,7 +14,9 @@ import { LoggedUserDto } from './dto/logged-user.dto';
 import { SingInUserDto } from './dto/signin-user.dto';
 import { SignUpUserDto } from './dto/signup-user.dto';
 
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { GetCurrentUser } from '../auth/auth.annotation';
+import { CurrentUserDto } from '../auth/dto/current-user.dto';
 
 import { UsersService } from './users.service';
 
@@ -25,8 +26,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getProfile(@Request() req: { user: any }): any {
-    return req.user;
+  getProfile(@GetCurrentUser() user: CurrentUserDto): CurrentUserDto {
+    return user;
   }
 
   @Post('signin')

@@ -1,6 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
@@ -11,14 +16,16 @@ import { SingInUserDto } from './dto/signin-user.dto';
 import { SignUpUserDto } from './dto/signup-user.dto';
 
 import { UserEntity } from './user.entity';
-import { JwtPayloadDto } from './dto/jwt-payload.dto';
+
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
-    private jwtService: JwtService,
+    @Inject(forwardRef(() => AuthService))
+    private authService: AuthService,
   ) {}
 
   async signUp(signUpUserDto: SignUpUserDto): Promise<CreatedUserDto> {
@@ -57,7 +64,7 @@ export class UsersService {
 
     return new CreatedUserDto({
       ...createdUser,
-      access_token: this.generateAccessToken(createdUser),
+      access_token: this.authService.generateAccessToken(user),
     });
   }
 
@@ -77,22 +84,12 @@ export class UsersService {
     }
 
     return {
-      access_token: this.generateAccessToken(user),
+      access_token: this.authService.generateAccessToken(user),
     };
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
-  }
-
-  private generateAccessToken(user: UserEntity) {
-    const payload: JwtPayloadDto = {
-      name: user.name,
-      email: user.email,
-      sub: user.id,
-    };
-
-    return this.jwtService.sign(payload);
   }
 
   findById(id: string): Promise<UserEntity> {
