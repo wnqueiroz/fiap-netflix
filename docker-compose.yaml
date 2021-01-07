@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: backend_user,backend_user_test
+      POSTGRES_MULTIPLE_DATABASES: backend_user,backend_support
   backend-user:
     build: ./apps/backend-user
     ports:
