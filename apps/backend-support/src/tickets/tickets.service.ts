@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateTicketDto } from './dto/create-tickets.dto';
-import { CreatedTicketDto } from './dto/created-ticket.dto';
+import { TicketDto } from './dto/ticket.dto';
 
 import { TicketEntity } from './ticket.entity';
 
@@ -14,10 +14,7 @@ export class TicketsService {
     private ticketsRepository: Repository<TicketEntity>,
   ) {}
 
-  create(
-    idUser: string,
-    createTicketDto: CreateTicketDto,
-  ): Promise<CreatedTicketDto> {
+  create(idUser: string, createTicketDto: CreateTicketDto): Promise<TicketDto> {
     const data = {
       ...createTicketDto,
       idUser,
@@ -25,5 +22,13 @@ export class TicketsService {
     };
 
     return this.ticketsRepository.save(data);
+  }
+
+  getAll(idUser: string): Promise<TicketDto[]> {
+    return this.ticketsRepository.find({
+      where: {
+        idUser,
+      },
+    });
   }
 }

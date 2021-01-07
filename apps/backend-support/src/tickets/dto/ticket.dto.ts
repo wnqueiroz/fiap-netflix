@@ -1,4 +1,4 @@
-export class CreatedTicketDto {
+export class TicketDto {
   id: string;
 
   title: string;
