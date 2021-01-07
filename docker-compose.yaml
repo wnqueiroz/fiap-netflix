@@ -30,3 +30,22 @@ services:
         condition: on-failure
     depends_on:
       - postgres
+  backend-support:
+    build: ./apps/backend-support
+    ports:
+      - 9092:8081
+    environment:
+      NODE_ENV: development
+      POSTGRES_DB: backend_support
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
