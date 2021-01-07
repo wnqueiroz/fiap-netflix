@@ -4,11 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TicketsService } from './tickets.service';
 import { TicketsController } from './tickets.controller';
 import { TicketEntity } from './ticket.entity';
-import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TicketEntity])],
-  providers: [TicketsService, JwtStrategy],
+  providers: [TicketsService],
   controllers: [TicketsController],
 })
 export class TicketsModule {}

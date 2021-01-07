@@ -6,6 +6,7 @@ import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 
 import { TicketsModule } from './tickets/tickets.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TicketsModule } from './tickets/tickets.module';
       useFactory: (configService: ConfigService) =>
         configService.get('database'),
     }),
+    AuthModule,
     TicketsModule,
   ],
   controllers: [],

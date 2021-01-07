@@ -3,10 +3,11 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import appConfig from '../config/app.config';
-
-import { RequestUserDto } from './dto/request-user.dto';
+import { CurrentUserDto } from './dto/current-user.dto';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
+
+import appConfig from '../config/app.config';
+import { AuthService } from './auth.service';
 
 ConfigModule.forRoot({
   load: [appConfig],
@@ -14,7 +15,7 @@ ConfigModule.forRoot({
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -23,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayloadDto): Promise<RequestUserDto> {
-    return { name: payload.name, email: payload.email, id: payload.sub };
+  async validate(payload: JwtPayloadDto): Promise<CurrentUserDto> {
+    return this.authService.validate(payload);
   }
 }
