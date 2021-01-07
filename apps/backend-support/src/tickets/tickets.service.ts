@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -30,5 +30,18 @@ export class TicketsService {
         idUser,
       },
     });
+  }
+
+  async getOne(idUser: string, idTicket: string): Promise<TicketDto> {
+    const ticket = await this.ticketsRepository.findOne({
+      where: {
+        id: idTicket,
+        idUser,
+      },
+    });
+
+    if (!ticket) throw new NotFoundException('Ticket not found');
+
+    return ticket;
   }
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -33,5 +34,16 @@ export class TicketsController {
     const { id } = req.user;
 
     return this.ticketsService.getAll(id);
+  }
+
+  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  getOne(
+    @Request() req: { user: { id: string } },
+    @Param('id') idTicket: string,
+  ): Promise<TicketDto> {
+    const { id: idUser } = req.user;
+
+    return this.ticketsService.getOne(idUser, idTicket);
   }
 }
