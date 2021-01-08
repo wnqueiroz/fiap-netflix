@@ -11,10 +11,29 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_MULTIPLE_DATABASES: backend_user,backend_support,backend_catalog
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:2.11-1.1.1
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://${HOST_IP}:9093
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
   backend-user:
     build: ./apps/backend-user
     ports:
-      - 9091:8081
+      - 9191:8081
     environment:
       NODE_ENV: development
       POSTGRES_DB: backend_user
@@ -33,7 +52,7 @@ services:
   backend-support:
     build: ./apps/backend-support
     ports:
-      - 9092:8081
+      - 9192:8081
     environment:
       NODE_ENV: development
       POSTGRES_DB: backend_support
@@ -52,7 +71,7 @@ services:
   backend-catalog:
     build: ./apps/backend-catalog
     ports:
-      - 9093:8081
+      - 9193:8081
     environment:
       NODE_ENV: development
       POSTGRES_DB: backend_catalog
