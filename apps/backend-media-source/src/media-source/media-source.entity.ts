@@ -20,6 +20,9 @@ export class MediaSourceEntity {
   @Column('uuid', { nullable: false })
   idMedia: string;
 
+  @Column('uuid', { nullable: true })
+  idMediaSourceGroup: string;
+
   @ManyToOne(
     () => MediaSourceGroupEntity,
     mediaSourceGroup => mediaSourceGroup.id,
@@ -27,15 +30,15 @@ export class MediaSourceEntity {
   @JoinColumn({
     name: 'idMediaSourceGroup',
   })
-  idMediaSourceGroup: MediaSourceGroupEntity;
+  mediaSourceGroup: MediaSourceGroupEntity;
 
   @Column({ nullable: false })
   source: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   title: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   description: string;
 
   @Column({ nullable: false })

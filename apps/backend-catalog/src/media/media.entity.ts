@@ -23,6 +23,9 @@ export class MediaEntity {
   @Column({ nullable: false })
   description: string;
 
+  @Column('uuid', { nullable: false })
+  idMediaType: string;
+
   @ManyToOne(
     () => MediaTypeEntity,
     mediaType => mediaType.id,
@@ -30,7 +33,7 @@ export class MediaEntity {
   @JoinColumn({
     name: 'idMediaType',
   })
-  idMediaType: MediaTypeEntity;
+  mediaType: MediaTypeEntity;
 
   @CreateDateColumn()
   createdAt: Date;
