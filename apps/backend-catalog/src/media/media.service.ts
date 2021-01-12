@@ -83,13 +83,7 @@ export class MediaService {
   }
 
   async getMostWatched(): Promise<MediaDto[]> {
-    const mediaUsersWatched = await this.mediaUsersRepository.find({
-      isWatched: true,
-    });
-
-    if (!mediaUsersWatched) return [];
-
-    const mediaMostWatched = await this.mediaUsersRepository
+    const mediaUsersMostWatched = await this.mediaUsersRepository
       .createQueryBuilder('media_users')
       .select('media_users.idMedia', 'idMedia')
       .addSelect('COUNT(media_users.idMedia)', 'count')
@@ -101,7 +95,9 @@ export class MediaService {
       .take(10)
       .execute();
 
-    const mediaIds = mediaMostWatched.map(({ idMedia }) => idMedia);
+    if (!mediaUsersMostWatched.length) return [];
+
+    const mediaIds = mediaUsersMostWatched.map(({ idMedia }) => idMedia);
 
     const categoriesAndMedia = await this.mediaCategoriesEntity
       .createQueryBuilder('media_categories')
