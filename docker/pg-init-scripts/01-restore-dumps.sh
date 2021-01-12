@@ -1,7 +1,11 @@
-#!/bin/bash
+#/bin/bash
 
-FILE="/docker-entrypoint-initdb.d/dumps/backend_user_dump.sql"
-DB_NAME=backend_user
+FILES=/docker-entrypoint-initdb.d/dumps/*.sql
 
-echo "Restoring DB ["$DB_NAME"] using: $FILE"
-psql --username $POSTGRES_USER --password $POSTGRES_PASSWORD -d "$DB_NAME" < "$FILE" || exit 1
+for FILE in $FILES; do
+    DB_NAME=$(basename "$FILE" .sql)
+
+    echo "Restoring DB ["$DB_NAME"] using: $FILE"
+
+    psql -U $POSTGRES_USER -d "$DB_NAME" <"$FILE" || exit 1
+done
