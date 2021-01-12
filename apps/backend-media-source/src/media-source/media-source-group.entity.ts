@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity({
-  name: 'media_source_group',
+  name: 'media_source_groups',
 })
 export class MediaSourceGroupEntity {
   @PrimaryGeneratedColumn('uuid')
