@@ -44,6 +44,9 @@ export class MediaSourceEntity {
   @Column({ nullable: false })
   duration: number;
 
+  @Column({ nullable: false, default: 0 })
+  order: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

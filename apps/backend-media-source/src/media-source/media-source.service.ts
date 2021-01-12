@@ -16,6 +16,43 @@ export class MediaSourceService {
     private mediaSourceUsersRepository: Repository<MediaSourceUsersEntity>,
   ) {}
 
+  async getAll(idMedia: string): Promise<any> {
+    const allMediaSource = await this.mediaSourceRepository.find({
+      order: {
+        order: 'ASC',
+      },
+      where: {
+        idMedia,
+      },
+      relations: ['mediaSourceGroup'],
+    });
+
+    return allMediaSource.reduce((acc, currentMediaSource) => {
+      const {
+        idMediaSourceGroup,
+        mediaSourceGroup,
+        ...mediaSource
+      } = currentMediaSource;
+
+      const foundIndex = acc.findIndex(
+        mediaSourceGroup => mediaSourceGroup.id === idMediaSourceGroup,
+      );
+
+      const notFoundMediaSourceGroup = foundIndex === -1;
+
+      delete mediaSource.idMedia;
+
+      notFoundMediaSourceGroup
+        ? acc.push({
+            ...mediaSourceGroup,
+            mediaSource: [mediaSource],
+          })
+        : acc[foundIndex].mediaSource.push(mediaSource);
+
+      return acc;
+    }, []);
+  }
+
   async getOne(idMediaSource: string): Promise<MediaSourceDto> {
     const mediaSource = await this.mediaSourceRepository.findOne({
       where: {
