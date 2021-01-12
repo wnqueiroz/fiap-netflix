@@ -14,22 +14,29 @@ export class TicketsService {
     private ticketsRepository: Repository<TicketEntity>,
   ) {}
 
-  create(idUser: string, createTicketDto: CreateTicketDto): Promise<TicketDto> {
+  async create(
+    idUser: string,
+    createTicketDto: CreateTicketDto,
+  ): Promise<TicketDto> {
     const data = {
       ...createTicketDto,
       idUser,
       isOpen: true,
     };
 
-    return this.ticketsRepository.save(data);
+    const ticket = await this.ticketsRepository.save(data);
+
+    return new TicketDto(ticket);
   }
 
-  getAll(idUser: string): Promise<TicketDto[]> {
-    return this.ticketsRepository.find({
+  async getAll(idUser: string): Promise<TicketDto[]> {
+    const tickets = await this.ticketsRepository.find({
       where: {
         idUser,
       },
     });
+
+    return tickets.map(ticket => new TicketDto(ticket));
   }
 
   async getOne(idUser: string, idTicket: string): Promise<TicketDto> {
@@ -42,6 +49,6 @@ export class TicketsService {
 
     if (!ticket) throw new NotFoundException('Ticket not found');
 
-    return ticket;
+    return new TicketDto(ticket);
   }
 }

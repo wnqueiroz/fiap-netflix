@@ -1,5 +1,10 @@
+import { Exclude } from 'class-transformer';
+
 export class TicketDto {
   id: string;
+
+  @Exclude()
+  idUser: string;
 
   title: string;
 
@@ -10,4 +15,8 @@ export class TicketDto {
   createdAt: Date;
 
   updatedAt: Date;
+
+  constructor(partial: Partial<TicketDto>) {
+    Object.assign(this, partial);
+  }
 }

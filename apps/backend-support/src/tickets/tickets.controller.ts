@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { GetCurrentUser } from '../auth/auth.annotation';
 import { CurrentUserDto } from '../auth/dto/current-user.dto';
 
@@ -14,6 +23,7 @@ export class TicketsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   create(
     @GetCurrentUser() user: CurrentUserDto,
     @Body() createTicketDto: CreateTicketDto,
@@ -25,7 +35,8 @@ export class TicketsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  getAll(@GetCurrentUser() user: CurrentUserDto): Promise<TicketDto[]> {
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAll(@GetCurrentUser() user: CurrentUserDto): Promise<TicketDto[]> {
     const { id } = user;
 
     return this.ticketsService.getAll(id);
@@ -33,6 +44,7 @@ export class TicketsController {
 
   @Get('/:id')
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   getOne(
     @GetCurrentUser() user: CurrentUserDto,
     @Param('id') idTicket: string,
