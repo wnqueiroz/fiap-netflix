@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetCurrentUser } from '../auth/auth.annotation';
@@ -11,6 +11,18 @@ import { MediaService } from './media.service';
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  getAll(
+    @Query('keyword') keyword?: string,
+    @Query('idGenre') idGenre?: string,
+  ): Promise<MediaDto[]> {
+    return this.mediaService.getAll({
+      keyword,
+      idGenre,
+    });
+  }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)

@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 
 import { GenreEntity } from './genre.entity';
-import { KeywordEntity } from './keyword.entity';
 import { MediaEntity } from './media.entity';
 
 @Entity({
@@ -22,7 +21,7 @@ export class MediaGenresEntity {
   idMedia: string;
 
   @ManyToOne(
-    () => KeywordEntity,
+    () => GenreEntity,
     media => media.id,
   )
   @JoinColumn({ name: 'idGenre' })
