@@ -1,5 +1,7 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
+import { GetCurrentUser } from '../auth/auth.annotation';
+import { CurrentUserDto } from '../auth/dto/current-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { MediaSourceDto } from './dto/media-source.dto';
@@ -13,5 +15,16 @@ export class MediaSourceController {
   @UseGuards(JwtAuthGuard)
   getOne(@Param('id') id: string): Promise<MediaSourceDto> {
     return this.mediaSourceService.getOne(id);
+  }
+
+  @Post(':id/watched')
+  @UseGuards(JwtAuthGuard)
+  setAsWatched(
+    @GetCurrentUser() user: CurrentUserDto,
+    @Param('id') id: string,
+  ): Promise<MediaSourceDto> {
+    const { id: idUser } = user;
+
+    return this.mediaSourceService.setAsWatched(idUser, id);
   }
 }
