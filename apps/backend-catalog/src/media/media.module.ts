@@ -6,10 +6,12 @@ import { MediaEntity } from './media.entity';
 
 import { MediaController } from './media.controller';
 import { MediaService } from './media.service';
-import { MediaKeywordsEntity } from './media-keywords.entity';
-import { KeywordEntity } from './keyword.entity';
+
 import { GenreEntity } from './genre.entity';
+import { KeywordEntity } from './keyword.entity';
 import { MediaGenresEntity } from './media-genres.entity';
+import { MediaKeywordsEntity } from './media-keywords.entity';
+import { MediaCategoriesEntity } from './media-categories.entity';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { MediaGenresEntity } from './media-genres.entity';
       MediaUsersEntity,
       MediaGenresEntity,
       MediaKeywordsEntity,
+      MediaCategoriesEntity,
     ]),
   ],
   controllers: [MediaController],

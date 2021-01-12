@@ -24,6 +24,12 @@ export class MediaController {
     });
   }
 
+  @Get('/most_watched')
+  @UseGuards(JwtAuthGuard)
+  getMostWatched(): Promise<MediaDto[]> {
+    return this.mediaService.getMostWatched();
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   getOne(@Param('id') id: string): Promise<MediaDto> {

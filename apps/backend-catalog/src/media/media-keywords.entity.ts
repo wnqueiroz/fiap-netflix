@@ -5,7 +5,6 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  Column,
 } from 'typeorm';
 
 import { KeywordEntity } from './keyword.entity';

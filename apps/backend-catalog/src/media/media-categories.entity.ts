@@ -6,9 +6,8 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { CategoryEntity } from './category.entity';
 
-import { KeywordEntity } from './keyword.entity';
+import { CategoryEntity } from './category.entity';
 import { MediaEntity } from './media.entity';
 
 @Entity({
@@ -22,8 +21,8 @@ export class MediaCategoriesEntity {
   idMedia: string;
 
   @ManyToOne(
-    () => KeywordEntity,
-    media => media.id,
+    () => CategoryEntity,
+    category => category.id,
   )
   @JoinColumn({ name: 'idCategory' })
   category: CategoryEntity;

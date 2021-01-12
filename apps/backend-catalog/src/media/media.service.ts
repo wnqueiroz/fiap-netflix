@@ -6,6 +6,7 @@ import { MediaDto } from './dto/media.dto';
 import { GenreEntity } from './genre.entity';
 
 import { KeywordEntity } from './keyword.entity';
+import { MediaCategoriesEntity } from './media-categories.entity';
 import { MediaGenresEntity } from './media-genres.entity';
 import { MediaKeywordsEntity } from './media-keywords.entity';
 import { MediaUsersEntity } from './media-users.entity';
@@ -27,6 +28,8 @@ export class MediaService {
     private mediaKeywordsRepository: Repository<MediaKeywordsEntity>,
     @InjectRepository(MediaGenresEntity)
     private mediaGenresRepository: Repository<MediaGenresEntity>,
+    @InjectRepository(MediaCategoriesEntity)
+    private mediaCategoriesEntity: Repository<MediaCategoriesEntity>,
     @InjectRepository(KeywordEntity)
     private keywordRepository: Repository<KeywordEntity>,
     @InjectRepository(GenreEntity)
@@ -77,6 +80,53 @@ export class MediaService {
     }
 
     return this.mediaRepository.find();
+  }
+
+  async getMostWatched(): Promise<MediaDto[]> {
+    const mediaUsersWatched = await this.mediaUsersRepository.find({
+      isWatched: true,
+    });
+
+    if (!mediaUsersWatched) return [];
+
+    const mediaMostWatched = await this.mediaUsersRepository
+      .createQueryBuilder('media_users')
+      .select('media_users.idMedia', 'idMedia')
+      .addSelect('COUNT(media_users.idMedia)', 'count')
+      .where({
+        isWatched: true,
+      })
+      .groupBy('media_users.idMedia')
+      .orderBy('count', 'DESC')
+      .take(10)
+      .execute();
+
+    const mediaIds = mediaMostWatched.map(({ idMedia }) => idMedia);
+
+    const categoriesAndMedia = await this.mediaCategoriesEntity
+      .createQueryBuilder('media_categories')
+      .innerJoinAndSelect('media_categories.media', 'media')
+      .innerJoinAndSelect('media_categories.category', 'category')
+      .where('media_categories.idMedia IN (:...ids)', { ids: mediaIds })
+      .getMany();
+
+    if (!categoriesAndMedia.length) return [];
+
+    return categoriesAndMedia.reduce((acc, currentCategoryAndMedia) => {
+      const { idCategory, category, media } = currentCategoryAndMedia;
+      const foundIndex = acc.findIndex(category => category.id === idCategory);
+
+      const notFoundCategory = foundIndex === -1;
+
+      notFoundCategory
+        ? acc.push({
+            ...category,
+            media: [media],
+          })
+        : acc[foundIndex].media.push(media);
+
+      return acc;
+    }, []);
   }
 
   async getOne(id: string): Promise<MediaDto> {
