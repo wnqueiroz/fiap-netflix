@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
+import { MediaSourceModule } from './media-source/media-source.module';
 
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
@@ -20,6 +21,7 @@ import databaseConfig from './config/database.config';
         configService.get('database'),
     }),
     AuthModule,
+    MediaSourceModule,
   ],
 })
 export class AppModule {}
