@@ -129,6 +129,19 @@ export class MediaService {
     }, []);
   }
 
+  async getWatched(idUser: string): Promise<MediaDto[]> {
+    const mediaUsersWatched = await this.mediaUsersRepository
+      .createQueryBuilder('media_users')
+      .innerJoinAndSelect('media_users.media', 'media')
+      .where('media_users.isWatched = :isWatched', { isWatched: true })
+      .where('media_users.idUser = :idUser', { idUser })
+      .getMany();
+
+    const allMedia = mediaUsersWatched.map(({ media }) => media);
+
+    return allMedia;
+  }
+
   async getOne(id: string): Promise<MediaDto> {
     const media = await this.mediaRepository.findOne({
       where: {

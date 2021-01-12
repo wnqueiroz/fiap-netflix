@@ -22,7 +22,7 @@ export class MediaGenresEntity {
 
   @ManyToOne(
     () => GenreEntity,
-    media => media.id,
+    genre => genre.id,
   )
   @JoinColumn({ name: 'idGenre' })
   genre: GenreEntity;

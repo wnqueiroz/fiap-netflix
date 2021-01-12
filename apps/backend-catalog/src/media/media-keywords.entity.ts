@@ -22,7 +22,7 @@ export class MediaKeywordsEntity {
 
   @ManyToOne(
     () => KeywordEntity,
-    media => media.id,
+    keyword => keyword.id,
   )
   @JoinColumn({ name: 'idKeyword' })
   keyword: KeywordEntity;

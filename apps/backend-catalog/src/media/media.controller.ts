@@ -30,6 +30,14 @@ export class MediaController {
     return this.mediaService.getMostWatched();
   }
 
+  @Get('/watched')
+  @UseGuards(JwtAuthGuard)
+  getWatched(@GetCurrentUser() user: CurrentUserDto): Promise<MediaDto[]> {
+    const { id: idUser } = user;
+
+    return this.mediaService.getWatched(idUser);
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   getOne(@Param('id') id: string): Promise<MediaDto> {
