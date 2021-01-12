@@ -28,4 +28,15 @@ export class MediaController {
 
     return this.mediaService.addToWatchLater(idUser, idMedia);
   }
+
+  @Post(':id/like')
+  @UseGuards(JwtAuthGuard)
+  likeOrUnlike(
+    @GetCurrentUser() user: CurrentUserDto,
+    @Param('id') idMedia: string,
+  ): Promise<MediaDto> {
+    const { id: idUser } = user;
+
+    return this.mediaService.likeOrUnlike(idUser, idMedia);
+  }
 }

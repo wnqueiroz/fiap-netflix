@@ -31,23 +31,43 @@ export class MediaService {
   async addToWatchLater(idUser: string, idMedia: string): Promise<MediaDto> {
     const media = await this.getOne(idMedia);
 
+    const mediaUsers = await this.findOrCreateMediaUsers(idUser, idMedia);
+
+    await this.mediaUsersRepository.save({ ...mediaUsers, isWatchLater: true });
+
+    return media;
+  }
+
+  async likeOrUnlike(idUser: string, idMedia: string): Promise<MediaDto> {
+    const media = await this.getOne(idMedia);
+
+    const mediaUsers = await this.findOrCreateMediaUsers(idUser, idMedia);
+
+    await this.mediaUsersRepository.save({
+      ...mediaUsers,
+      isLiked: !mediaUsers.isLiked,
+    });
+
+    return media;
+  }
+
+  private async findOrCreateMediaUsers(
+    idUser: string,
+    idMedia: string,
+  ): Promise<MediaUsersEntity> {
     let mediaUsers = await this.mediaUsersRepository.findOne({
       where: {
-        idMedia: media.id,
+        idMedia,
         idUser,
       },
     });
 
     if (!mediaUsers)
       mediaUsers = await this.mediaUsersRepository.save({
-        idMedia: media.id,
+        idMedia,
         idUser,
       });
 
-    mediaUsers = { ...mediaUsers, isWatchLater: true };
-
-    await this.mediaUsersRepository.save(mediaUsers);
-
-    return media;
+    return mediaUsers;
   }
 }
