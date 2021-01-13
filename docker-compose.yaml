@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: backend_user,backend_support,backend_catalog
+      POSTGRES_MULTIPLE_DATABASES: backend_user,backend_support,backend_catalog,backend_media_source
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
@@ -77,6 +77,27 @@ services:
     environment:
       NODE_ENV: development
       POSTGRES_DB: backend_catalog
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      KAFKA_HOST: ${KAFKA_HOST}
+      KAFKA_PORT: ${KAFKA_PORT}
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+  backend-media-source:
+    build: ./apps/backend-media-source
+    ports:
+      - 9194:8081
+    environment:
+      NODE_ENV: development
+      POSTGRES_DB: backend_media_source
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
