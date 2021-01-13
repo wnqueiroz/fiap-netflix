@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 
 import { GetCurrentUser } from '../auth/auth.annotation';
 import { CurrentUserDto } from '../auth/dto/current-user.dto';
@@ -8,6 +16,7 @@ import { MediaSourceDto } from './dto/media-source.dto';
 import { MediaSourceService } from './media-source.service';
 
 import { IsNotEmpty, IsUUID } from 'class-validator';
+import { ClientKafka } from '@nestjs/microservices';
 
 export class GetAllQuery {
   @IsUUID('all', {
@@ -19,9 +28,16 @@ export class GetAllQuery {
   idMedia: string;
 }
 
+enum TOPICS {
+  MEDIA_SOURCE_WATCHED = 'media_source.watched',
+}
+
 @Controller('media-source')
 export class MediaSourceController {
-  constructor(private readonly mediaSourceService: MediaSourceService) {}
+  constructor(
+    private readonly mediaSourceService: MediaSourceService,
+    @Inject('MEDIA_SOURCE_SERVICE') private client: ClientKafka,
+  ) {}
 
   @Get()
   @UseGuards(JwtAuthGuard)
@@ -38,12 +54,16 @@ export class MediaSourceController {
 
   @Post(':id/watched')
   @UseGuards(JwtAuthGuard)
-  setAsWatched(
+  async setAsWatched(
     @GetCurrentUser() user: CurrentUserDto,
     @Param('id') id: string,
   ): Promise<MediaSourceDto> {
     const { id: idUser } = user;
 
-    return this.mediaSourceService.setAsWatched(idUser, id);
+    const mediaSource = await this.mediaSourceService.setAsWatched(idUser, id);
+
+    this.client.emit(TOPICS.MEDIA_SOURCE_WATCHED, { ...mediaSource });
+
+    return mediaSource;
   }
 }
