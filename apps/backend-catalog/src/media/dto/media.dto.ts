@@ -8,4 +8,8 @@ export class MediaDto {
   createdAt: Date;
 
   updatedAt: Date;
+
+  constructor(partial: Partial<MediaDto>) {
+    Object.assign(this, partial);
+  }
 }

@@ -131,6 +131,18 @@ export class MediaService {
     }, []);
   }
 
+  async getWatchLaterList(idUser: string): Promise<MediaDto[]> {
+    const watchLaterList = await this.mediaUsersRepository.find({
+      where: {
+        idUser,
+        isWatchLater: true,
+      },
+      relations: ['media'],
+    });
+
+    return watchLaterList.map(({ media }) => new MediaDto(media));
+  }
+
   async getWatched(idUser: string): Promise<MediaDto[]> {
     const mediaUsersWatched = await this.mediaUsersRepository
       .createQueryBuilder('media_users')
