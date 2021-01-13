@@ -20,6 +20,7 @@ export class MediaSourceService {
     const allMediaSource = await this.mediaSourceRepository.find({
       order: {
         order: 'ASC',
+        mediaSourceGroup: 'ASC',
       },
       where: {
         idMedia,

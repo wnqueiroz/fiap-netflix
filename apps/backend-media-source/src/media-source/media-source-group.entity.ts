@@ -16,6 +16,9 @@ export class MediaSourceGroupEntity {
   @Column({ nullable: false })
   name: string;
 
+  @Column({ nullable: false, default: 0 })
+  order: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
