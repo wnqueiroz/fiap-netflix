@@ -62,7 +62,8 @@ CREATE TABLE public.media_source_groups (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name character varying NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
-    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL
+    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "order" character varying DEFAULT '0'::character varying NOT NULL
 );
 
 
@@ -103,17 +104,17 @@ f555eca9-7fb5-45f2-a33c-c8b2b3036625	db028373-c442-47b9-b887-4283f9b81cb3	https:
 -- Data for Name: media_source_groups; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.media_source_groups (id, name, "createdAt", "updatedAt") FROM stdin;
-2b3d2064-c511-411b-a331-14d8c2e1ac31	Temporada 1	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-6110e371-fb15-4f14-bca2-1541d874f535	Temporada 2	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-93b8d8f5-fbbf-4ffb-8e43-d42948878b3f	Temporada 3	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-5088a8ea-0850-433e-acf7-571c9123a8be	Temporada 4	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-7869780f-42b3-4ba6-8f25-fdce851e534a	Temporada 5	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-8df4b0b9-b602-4e2a-86f5-511e14419f6f	Temporada 6	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-66f4f89b-cb01-4da2-af44-fe7e0ec1303a	Temporada 7	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-63625e6f-9672-4931-9ecf-7b15affc5ed4	Temporada 8	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-1f831066-3730-4183-b124-312ac7d1e926	Temporada 9	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
-99d18076-227f-413d-b225-4b1b778bfbaa	Temporada 10	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679
+COPY public.media_source_groups (id, name, "createdAt", "updatedAt", "order") FROM stdin;
+2b3d2064-c511-411b-a331-14d8c2e1ac31	Temporada 1	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	0
+6110e371-fb15-4f14-bca2-1541d874f535	Temporada 2	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	1
+93b8d8f5-fbbf-4ffb-8e43-d42948878b3f	Temporada 3	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	2
+5088a8ea-0850-433e-acf7-571c9123a8be	Temporada 4	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	3
+7869780f-42b3-4ba6-8f25-fdce851e534a	Temporada 5	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	4
+8df4b0b9-b602-4e2a-86f5-511e14419f6f	Temporada 6	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	5
+66f4f89b-cb01-4da2-af44-fe7e0ec1303a	Temporada 7	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	6
+63625e6f-9672-4931-9ecf-7b15affc5ed4	Temporada 8	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	7
+1f831066-3730-4183-b124-312ac7d1e926	Temporada 9	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	8
+99d18076-227f-413d-b225-4b1b778bfbaa	Temporada 10	2021-01-12 22:43:51.543679	2021-01-12 22:43:51.543679	9
 \.
 
 
@@ -122,9 +123,6 @@ COPY public.media_source_groups (id, name, "createdAt", "updatedAt") FROM stdin;
 --
 
 COPY public.media_source_users ("idUser", "idMediaSource", "isWatched", "createdAt", "updatedAt") FROM stdin;
-5c3f4735-5bbb-4369-804f-e44795a19552	16fdc996-fa23-41a5-89aa-114d0ec90e61	t	2021-01-12 23:14:17.864009	2021-01-12 23:14:17.954122
-5c3f4735-5bbb-4369-804f-e44795a19552	63cc9aee-cba3-4f20-b912-28ff7f362352	t	2021-01-13 01:00:37.762032	2021-01-13 01:00:37.814959
-5c3f4735-5bbb-4369-804f-e44795a19552	142ee077-d7a7-476f-a997-868b78f2f674	t	2021-01-13 01:15:44.716303	2021-01-13 01:15:44.762974
 \.
 
 
