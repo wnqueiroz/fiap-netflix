@@ -17,6 +17,12 @@ type GetAllFilters = {
   idGenre?: string;
 };
 
+type SetMediaAsWatchedParams = {
+  idUser: string;
+  idMedia: string;
+  remaining: MediaDto[];
+};
+
 @Injectable()
 export class MediaService {
   constructor(
@@ -171,6 +177,23 @@ export class MediaService {
     });
 
     return media;
+  }
+
+  async setMediaAsWatched(params: SetMediaAsWatchedParams): Promise<void> {
+    const { idUser, idMedia, remaining } = params;
+
+    if (!remaining.length) {
+      const media = await this.getOne(idMedia);
+
+      if (media) {
+        const mediaUsers = await this.findOrCreateMediaUsers(idUser, idMedia);
+
+        await this.mediaUsersRepository.save({
+          ...mediaUsers,
+          isWatched: true,
+        });
+      }
+    }
   }
 
   private async findOrCreateMediaUsers(

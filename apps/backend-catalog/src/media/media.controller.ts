@@ -7,6 +7,11 @@ import { CurrentUserDto } from '../auth/dto/current-user.dto';
 import { MediaDto } from './dto/media.dto';
 
 import { MediaService } from './media.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+
+enum TOPICS {
+  MEDIA_SOURCE_GET_REMAINING = 'media_source.get.remaining',
+}
 
 @Controller('media')
 export class MediaController {
@@ -64,5 +69,19 @@ export class MediaController {
     const { id: idUser } = user;
 
     return this.mediaService.likeOrUnlike(idUser, idMedia);
+  }
+
+  @MessagePattern(TOPICS.MEDIA_SOURCE_GET_REMAINING)
+  async getAllTopic(
+    @Payload()
+    message: {
+      value: {
+        idUser: string;
+        idMedia: string;
+        remaining: [];
+      };
+    },
+  ): Promise<any | void> {
+    await this.mediaService.setMediaAsWatched(message.value);
   }
 }

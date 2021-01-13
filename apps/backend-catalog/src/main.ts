@@ -1,11 +1,16 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+
+  const { port, kafka } = configService.get('app');
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -15,10 +20,20 @@ async function bootstrap() {
 
   const logger = new Logger('NestApplication');
 
-  const configService = app.get(ConfigService);
+  await app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'catalog',
+        brokers: [`${kafka.host}:${kafka.port}`],
+      },
+      consumer: {
+        groupId: 'catalog-consumer',
+      },
+    },
+  });
 
-  const { port } = configService.get('app');
-
+  await app.startAllMicroservicesAsync();
   await app.listen(port, () =>
     logger.log(`Server is listening on port: ${port}`),
   );
