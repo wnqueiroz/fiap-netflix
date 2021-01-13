@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-import { GenreEntity } from './genre.entity';
+import { GenreEntity } from '../genres/genre.entity';
 import { MediaEntity } from './media.entity';
 
 @Entity({

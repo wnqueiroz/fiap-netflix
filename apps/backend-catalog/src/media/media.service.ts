@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Raw, Repository } from 'typeorm';
 
 import { MediaDto } from './dto/media.dto';
-import { GenreEntity } from './genre.entity';
 
 import { KeywordEntity } from './keyword.entity';
 import { MediaCategoriesEntity } from './media-categories.entity';
@@ -11,6 +10,8 @@ import { MediaGenresEntity } from './media-genres.entity';
 import { MediaKeywordsEntity } from './media-keywords.entity';
 import { MediaUsersEntity } from './media-users.entity';
 import { MediaEntity } from './media.entity';
+
+import { GenresService } from '../genres/genres.service';
 
 type GetAllFilters = {
   keyword?: string;
@@ -38,8 +39,7 @@ export class MediaService {
     private mediaCategoriesEntity: Repository<MediaCategoriesEntity>,
     @InjectRepository(KeywordEntity)
     private keywordRepository: Repository<KeywordEntity>,
-    @InjectRepository(GenreEntity)
-    private genreRepository: Repository<GenreEntity>,
+    private genresService: GenresService,
   ) {}
 
   async getAll(filters: GetAllFilters): Promise<MediaDto[]> {
@@ -68,7 +68,7 @@ export class MediaService {
     }
 
     if (idGenre) {
-      const genre = await this.genreRepository.findOne(idGenre);
+      const genre = await this.genresService.getOne(idGenre);
 
       if (!genre) throw new NotFoundException('Genre not found');
 

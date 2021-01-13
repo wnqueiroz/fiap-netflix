@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { MediaModule } from './media/media.module';
+import { GenresModule } from './genres/genres.module';
 
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
@@ -22,6 +23,7 @@ import databaseConfig from './config/database.config';
     }),
     AuthModule,
     MediaModule,
+    GenresModule,
   ],
 })
 export class AppModule {}

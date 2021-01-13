@@ -7,7 +7,9 @@ import { MediaEntity } from './media.entity';
 import { MediaController } from './media.controller';
 import { MediaService } from './media.service';
 
-import { GenreEntity } from './genre.entity';
+// TODO: use module instead this
+import { GenresModule } from '../genres/genres.module';
+
 import { KeywordEntity } from './keyword.entity';
 import { MediaGenresEntity } from './media-genres.entity';
 import { MediaKeywordsEntity } from './media-keywords.entity';
@@ -17,13 +19,13 @@ import { MediaCategoriesEntity } from './media-categories.entity';
   imports: [
     TypeOrmModule.forFeature([
       MediaEntity,
-      GenreEntity,
       KeywordEntity,
       MediaUsersEntity,
       MediaGenresEntity,
       MediaKeywordsEntity,
       MediaCategoriesEntity,
     ]),
+    GenresModule,
   ],
   controllers: [MediaController],
   providers: [MediaService],
