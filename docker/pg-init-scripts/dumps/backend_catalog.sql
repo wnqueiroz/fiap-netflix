@@ -166,23 +166,6 @@ CREATE TABLE public.media_users (
 ALTER TABLE public.media_users OWNER TO postgres;
 
 --
--- Name: users_media; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.users_media (
-    "idUser" uuid NOT NULL,
-    "idMedia" uuid NOT NULL,
-    "isLiked" boolean DEFAULT false NOT NULL,
-    "isWatchLater" boolean DEFAULT false NOT NULL,
-    "isWatched" boolean DEFAULT false NOT NULL,
-    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
-    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.users_media OWNER TO postgres;
-
---
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -271,6 +254,10 @@ d5eb190a-d980-49ab-ba3a-8707c91ea10e	beb3c270-d0c2-422c-bca4-0a9c827961f5	2021-0
 --
 
 COPY public.media_genres ("idGenre", "idMedia", "createdAt", "updatedAt") FROM stdin;
+3a16e7f5-3e8f-483c-9173-ceed135080d1	db028373-c442-47b9-b887-4283f9b81cb3	2021-01-13 02:36:11.125492	2021-01-13 02:36:11.125492
+f7c82594-eece-47bf-8bc2-e70429573732	db028373-c442-47b9-b887-4283f9b81cb3	2021-01-13 02:36:11.125492	2021-01-13 02:36:11.125492
+f49f8fb8-3800-4316-8afb-59150cbb9826	db028373-c442-47b9-b887-4283f9b81cb3	2021-01-13 02:36:11.125492	2021-01-13 02:36:11.125492
+38f67686-4dbd-451a-b05b-e35417477bc5	beb3c270-d0c2-422c-bca4-0a9c827961f5	2021-01-13 02:36:11.125492	2021-01-13 02:36:11.125492
 \.
 
 
@@ -311,17 +298,6 @@ f1822e41-dd28-4810-ace7-eb98983c4cbb	Filmes	2021-01-12 22:35:58.999409	2021-01-1
 --
 
 COPY public.media_users ("idUser", "idMedia", "isLiked", "isWatchLater", "isWatched", "createdAt", "updatedAt") FROM stdin;
-5c3f4735-5bbb-4369-804f-e44795a19552	beb3c270-d0c2-422c-bca4-0a9c827961f5	f	t	t	2021-01-12 22:59:30.713902	2021-01-12 22:59:30.758727
-5c3f4735-5bbb-4369-804f-e44795a19552	db028373-c442-47b9-b887-4283f9b81cb3	t	f	f	2021-01-12 22:59:39.737601	2021-01-12 22:59:39.773965
-9d8751da-69ec-4108-9479-10d1b9a75a85	db028373-c442-47b9-b887-4283f9b81cb3	t	f	f	2021-01-12 23:08:38.088326	2021-01-12 23:08:38.184588
-\.
-
-
---
--- Data for Name: users_media; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users_media ("idUser", "idMedia", "isLiked", "isWatchLater", "isWatched", "createdAt", "updatedAt") FROM stdin;
 \.
 
 
@@ -355,14 +331,6 @@ ALTER TABLE ONLY public.media_types
 
 ALTER TABLE ONLY public.keywords
     ADD CONSTRAINT "PK_4aa660a7a585ed828da68f3c28e" PRIMARY KEY (id);
-
-
---
--- Name: users_media PK_7bb596918335b6d6bf500382d47; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users_media
-    ADD CONSTRAINT "PK_7bb596918335b6d6bf500382d47" PRIMARY KEY ("idUser", "idMedia");
 
 
 --
@@ -403,14 +371,6 @@ ALTER TABLE ONLY public.media_keywords
 
 ALTER TABLE ONLY public.media
     ADD CONSTRAINT "PK_f4e0fcac36e050de337b670d8bd" PRIMARY KEY (id);
-
-
---
--- Name: users_media FK_201829b22d1fb161d26218968b5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users_media
-    ADD CONSTRAINT "FK_201829b22d1fb161d26218968b5" FOREIGN KEY ("idMedia") REFERENCES public.media(id);
 
 
 --
