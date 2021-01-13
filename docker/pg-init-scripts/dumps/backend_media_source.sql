@@ -47,7 +47,8 @@ CREATE TABLE public.media_source (
     duration integer NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp without time zone DEFAULT now() NOT NULL,
-    "idMediaSourceGroup" uuid
+    "idMediaSourceGroup" uuid,
+    "order" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -86,13 +87,15 @@ ALTER TABLE public.media_source_users OWNER TO postgres;
 -- Data for Name: media_source; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.media_source (id, "idMedia", source, title, description, duration, "createdAt", "updatedAt", "idMediaSourceGroup") FROM stdin;
-16fdc996-fa23-41a5-89aa-114d0ec90e61	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Piloto	Rick leva Morty em uma viagem a outra dimensão para procurar sementes especiais. Jerry e Beth discutem a influência de Rick sobre o filho deles.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31
-680f0f4b-8648-41e9-982d-add7e20dc2c9	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Cãortador de grama	Rick cria um aparelho para deixar Snuffles mais inteligente, mas a experiência não dá certo. Rick e Morty invadem os sonhos de outra pessoa.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31
-f555eca9-7fb5-45f2-a33c-c8b2b3036625	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Parque das Bactérias	Morty se vê em um parque temático de doenças infecciosas dentro de um homem. Os pais de Jerry apresentam alguém especial.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31
-99d060b7-6c8c-4478-b125-ac9487333999	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Realidade Virtual	Alienígenas enviam Rick, Morty e Jerry para uma realidade alternativa. Rick tenta tirá-los de lá enquanto Jerry cria um slogan para maçãs.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31
-63cc9aee-cba3-4f20-b912-28ff7f362352	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	A Revolta dos Meeseeks	Morty não aguenta mais as loucuras de Rick e decide fazer uma aventura mais segura. Jerry chama criaturas estranhas para ajudá-lo no golfe.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31
-142ee077-d7a7-476f-a997-868b78f2f674	beb3c270-d0c2-422c-bca4-0a9c827961f5	https://youtu.be/NpEaa2P7qZI	\N	\N	8280	2021-01-12 22:48:54.213269	2021-01-12 22:48:54.213269	\N
+COPY public.media_source (id, "idMedia", source, title, description, duration, "createdAt", "updatedAt", "idMediaSourceGroup", "order") FROM stdin;
+16fdc996-fa23-41a5-89aa-114d0ec90e61	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Piloto	Rick leva Morty em uma viagem a outra dimensão para procurar sementes especiais. Jerry e Beth discutem a influência de Rick sobre o filho deles.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31	0
+142ee077-d7a7-476f-a997-868b78f2f674	beb3c270-d0c2-422c-bca4-0a9c827961f5	https://youtu.be/NpEaa2P7qZI	\N	\N	8280	2021-01-12 22:48:54.213269	2021-01-12 22:48:54.213269	\N	0
+63cc9aee-cba3-4f20-b912-28ff7f362352	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	A Revolta dos Meeseeks	Morty não aguenta mais as loucuras de Rick e decide fazer uma aventura mais segura. Jerry chama criaturas estranhas para ajudá-lo no golfe.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31	4
+680f0f4b-8648-41e9-982d-add7e20dc2c9	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Cãortador de grama	Rick cria um aparelho para deixar Snuffles mais inteligente, mas a experiência não dá certo. Rick e Morty invadem os sonhos de outra pessoa.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31	1
+99d060b7-6c8c-4478-b125-ac9487333999	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Realidade Virtual	Alienígenas enviam Rick, Morty e Jerry para uma realidade alternativa. Rick tenta tirá-los de lá enquanto Jerry cria um slogan para maçãs.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31	3
+f555eca9-7fb5-45f2-a33c-c8b2b3036625	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Parque das Bactérias	Morty se vê em um parque temático de doenças infecciosas dentro de um homem. Os pais de Jerry apresentam alguém especial.	1320	2021-01-12 22:46:40.793487	2021-01-12 22:46:40.793487	2b3d2064-c511-411b-a331-14d8c2e1ac31	2
+4f59f009-ecb1-4de9-be94-77bb851e1341	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Fratura temporal	Rick consegue descongelar o tempo, mas agora ele, Morty e Summer vão precisar enfrentar uma dimensão paralela que foi desencadeada sem querer.	1320	2021-01-13 01:25:02.208871	2021-01-13 01:25:02.208871	6110e371-fb15-4f14-bca2-1541d874f535	0
+35852206-7960-4631-913b-6441f290d864	db028373-c442-47b9-b887-4283f9b81cb3	https://youtu.be/NpEaa2P7qZI	Expresso da meia-noite	Depois que Rick vende uma arma a um assassino alienígena para bancar sua tarde de jogos eletrônicos, Morty é obrigado a impedir que o tal ET cometa um crime.	1320	2021-01-13 01:25:02.208871	2021-01-13 01:25:02.208871	6110e371-fb15-4f14-bca2-1541d874f535	1
 \.
 
 
@@ -119,6 +122,9 @@ COPY public.media_source_groups (id, name, "createdAt", "updatedAt") FROM stdin;
 --
 
 COPY public.media_source_users ("idUser", "idMediaSource", "isWatched", "createdAt", "updatedAt") FROM stdin;
+5c3f4735-5bbb-4369-804f-e44795a19552	16fdc996-fa23-41a5-89aa-114d0ec90e61	t	2021-01-12 23:14:17.864009	2021-01-12 23:14:17.954122
+5c3f4735-5bbb-4369-804f-e44795a19552	63cc9aee-cba3-4f20-b912-28ff7f362352	t	2021-01-13 01:00:37.762032	2021-01-13 01:00:37.814959
+5c3f4735-5bbb-4369-804f-e44795a19552	142ee077-d7a7-476f-a997-868b78f2f674	t	2021-01-13 01:15:44.716303	2021-01-13 01:15:44.762974
 \.
 
 
