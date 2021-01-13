@@ -53,19 +53,6 @@ export class MediaSourceController {
     return this.mediaSourceService.getOne(id);
   }
 
-  @Post(':id/fake')
-  @UseGuards(JwtAuthGuard)
-  async fake(
-    @GetCurrentUser() user: CurrentUserDto,
-    @Param('id') id: string,
-  ): Promise<any> {
-    const { id: idUser } = user;
-
-    const mediaSource = await this.getOne(id);
-
-    return this.mediaSourceService.getRemainingUnwatched(idUser, mediaSource);
-  }
-
   @Post(':id/watched')
   @UseGuards(JwtAuthGuard)
   async setAsWatched(
