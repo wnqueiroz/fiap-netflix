@@ -84,6 +84,42 @@ export class MediaSourceService {
     return mediaSource;
   }
 
+  async getRemainingUnwatched(
+    idUser: string,
+    mediaSource: MediaSourceDto,
+  ): Promise<any> {
+    const { idMediaSourceGroup, idMedia } = mediaSource;
+
+    const [mediaSourceWatchedByUser, mediaSourceOnGroup] = await Promise.all([
+      this.mediaSourceUsersRepository.find({
+        where: {
+          idUser,
+          isWatched: true,
+        },
+      }),
+      this.mediaSourceRepository.find({
+        where: {
+          idMedia,
+        },
+      }),
+    ]);
+
+    const mediaSourceWatchedIds = mediaSourceWatchedByUser.map(
+      mediaSource => mediaSource.idMediaSource,
+    );
+
+    const remaining = mediaSourceOnGroup.filter(
+      mediaSource => !mediaSourceWatchedIds.includes(mediaSource.id),
+    );
+
+    return {
+      idUser,
+      idMediaSourceGroup,
+      idMedia,
+      remaining,
+    };
+  }
+
   private async findOrCreateMediaSourceUsers(
     idUser: string,
     idMediaSource: string,

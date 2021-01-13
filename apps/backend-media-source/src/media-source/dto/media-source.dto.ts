@@ -3,6 +3,8 @@ export class MediaSourceDto {
 
   idMedia: string;
 
+  idMediaSourceGroup: string;
+
   source: string;
 
   title: string;
