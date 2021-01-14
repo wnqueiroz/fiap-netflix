@@ -40,7 +40,7 @@ It is located at: [docs/fiap-netflix.postman_collection.json](docs/fiap-netflix.
 
 ## Up and Running!
 
-After installing all the requirements and (creating the `.env.` file), run the follow script:
+After installing all the requirements and (creating the `.env` file), run the follow script:
 
 ```bash
 ./run.sh
