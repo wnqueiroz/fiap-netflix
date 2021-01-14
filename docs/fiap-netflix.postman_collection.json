@@ -507,7 +507,8 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "16fdc996-fa23-41a5-89aa-114d0ec90e61"
+											"value": "16fdc996-fa23-41a5-89aa-114d0ec90e61",
+											"description": "Episódio/Filme"
 										}
 									]
 								}
@@ -520,7 +521,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{backend-media-source-url}}/media-source/?idMedia=beb3c270-d0c2-422c-bca4-0a9c827961f5",
+									"raw": "{{backend-media-source-url}}/media-source/?idMedia=db028373-c442-47b9-b887-4283f9b81cb3",
 									"host": [
 										"{{backend-media-source-url}}"
 									],
@@ -531,12 +532,14 @@
 									"query": [
 										{
 											"key": "idMedia",
-											"value": "beb3c270-d0c2-422c-bca4-0a9c827961f5"
+											"value": "beb3c270-d0c2-422c-bca4-0a9c827961f5",
+											"description": "Filme",
+											"disabled": true
 										},
 										{
 											"key": "idMedia",
 											"value": "db028373-c442-47b9-b887-4283f9b81cb3",
-											"disabled": true
+											"description": "Série"
 										}
 									]
 								}

@@ -1,0 +1,20 @@
+sequenceDiagram
+  participant HTTP Client
+  participant Media Source
+  participant Apache Kafka
+  participant Catalog
+
+  HTTP Client->>+Media Source:POST /v1/media-source/:id/watched
+  Media Source->>Media Source:defines the respective media as watched
+
+  Media Source->>-Apache Kafka:send the watched media <br/> to users.media_sources.watched topic
+
+  Apache Kafka->>+Media Source:consume users.media_sources.watched topic
+
+  Media Source->>Media Source:analyzes unassisted media sources
+
+  Media Source->>-Apache Kafka:send sends the analyzed media sources <br/> to users.media_sources.analyzed topic
+
+  Catalog-->>Apache Kafka:listen to users.media_sources.analyzed topic
+
+  Catalog->>+Catalog:defines the respective media as watched based <br/> on remaining
