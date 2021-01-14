@@ -1,0 +1,640 @@
+{
+	"info": {
+		"_postman_id": "a7c91109-c59e-4336-b491-e3fb1ea5a6ec",
+		"name": "fiap-netflix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "backend-user",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "SignUp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    access_token",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"access_token\", access_token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Another User\",\n    \"email\": \"another_user@fiap.com.br\",\n    \"password\": \"{{user_password}}\",\n    \"passwordConfirmation\": \"{{user_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend-user-url}}/v1/users/signup",
+									"host": [
+										"{{backend-user-url}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SignIn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const {",
+											"    access_token",
+											"} = JSON.parse(responseBody);",
+											"",
+											"pm.collectionVariables.set(\"access_token\", access_token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend-user-url}}/v1/users/signin",
+									"host": [
+										"{{backend-user-url}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-user-url}}/v1/users/me",
+									"host": [
+										"{{backend-user-url}}"
+									],
+									"path": [
+										"v1",
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "backend-support",
+			"item": [
+				{
+					"name": "Tickets",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Não consigo ver nada\",\n    \"description\": \"Sei lá o que tá acontecendo, depois que eu fiquei cego, não consigo assistir\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend-support-url}}/v1/tickets",
+									"host": [
+										"{{backend-support-url}}"
+									],
+									"path": [
+										"v1",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Não consigo assistir brasileirinhas\",\n    \"description\": \"Não encontro os filmes no catálogo\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend-support-url}}/v1/tickets",
+									"host": [
+										"{{backend-support-url}}"
+									],
+									"path": [
+										"v1",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get One",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Não consigo assistir brasileirinhas\",\n    \"description\": \"Não encontro os filmes no catálogo\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend-support-url}}/v1/tickets/:id",
+									"host": [
+										"{{backend-support-url}}"
+									],
+									"path": [
+										"v1",
+										"tickets",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "ca4850c1-cf56-4b25-9eec-f2cf3ba2e8d7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "backend-catalog",
+			"item": [
+				{
+					"name": "Genres",
+					"item": [
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/genres",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"genres"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Media",
+					"item": [
+						{
+							"name": "Get One",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/:id",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "db028373-c442-47b9-b887-4283f9b81cb3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All By Genre",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media?idGenre=f49f8fb8-3800-4316-8afb-59150cbb9826",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media"
+									],
+									"query": [
+										{
+											"key": "idGenre",
+											"value": "f49f8fb8-3800-4316-8afb-59150cbb9826"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All By Keyword",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media?keyword=hospicio",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "rick",
+											"disabled": true
+										},
+										{
+											"key": "keyword",
+											"value": "hospicio"
+										},
+										{
+											"key": "keyword",
+											"value": "dicaprio",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Watched List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/watched",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										"watched"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Watch Later List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/watch_later",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										"watch_later"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Most Watched",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/most_watched",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										"most_watched"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add to Watch Later",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/:id/watch_later",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										":id",
+										"watch_later"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "beb3c270-d0c2-422c-bca4-0a9c827961f5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add to Favorite",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{backend-catalog-url}}/media/:id/like",
+									"host": [
+										"{{backend-catalog-url}}"
+									],
+									"path": [
+										"media",
+										":id",
+										"like"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "db028373-c442-47b9-b887-4283f9b81cb3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "backend-media-source",
+			"item": [
+				{
+					"name": "Media Source",
+					"item": [
+						{
+							"name": "Get One",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-media-source-url}}/media-source/:id",
+									"host": [
+										"{{backend-media-source-url}}"
+									],
+									"path": [
+										"media-source",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "16fdc996-fa23-41a5-89aa-114d0ec90e61"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All By Media",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend-media-source-url}}/media-source/?idMedia=beb3c270-d0c2-422c-bca4-0a9c827961f5",
+									"host": [
+										"{{backend-media-source-url}}"
+									],
+									"path": [
+										"media-source",
+										""
+									],
+									"query": [
+										{
+											"key": "idMedia",
+											"value": "beb3c270-d0c2-422c-bca4-0a9c827961f5"
+										},
+										{
+											"key": "idMedia",
+											"value": "db028373-c442-47b9-b887-4283f9b81cb3",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set As Watched",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{backend-media-source-url}}/media-source/:id/watched",
+									"host": [
+										"{{backend-media-source-url}}"
+									],
+									"path": [
+										"media-source",
+										":id",
+										"watched"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "142ee077-d7a7-476f-a997-868b78f2f674"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "user_email",
+			"value": "preview@fiap.com.br"
+		},
+		{
+			"key": "user_password",
+			"value": "123456"
+		},
+		{
+			"key": "user_name",
+			"value": "Preview User"
+		},
+		{
+			"key": "backend-media-source-url",
+			"value": "http://localhost:9194"
+		},
+		{
+			"key": "backend-catalog-url",
+			"value": "http://localhost:9193"
+		},
+		{
+			"key": "backend-user-url",
+			"value": "http://localhost:9191"
+		},
+		{
+			"key": "backend-support-url",
+			"value": "http://localhost:9192"
+		}
+	]
+}
