@@ -57,7 +57,6 @@ ALTER TABLE public.tickets OWNER TO postgres;
 
 COPY public.tickets (id, "idUser", title, description, "isOpen", "createdAt", "updatedAt") FROM stdin;
 ca4850c1-cf56-4b25-9eec-f2cf3ba2e8d7	5c3f4735-5bbb-4369-804f-e44795a19552	Não consigo pagar a minha fatura	Acabou meu dinheiro 😅💸	t	2021-01-12 16:44:42.677216	2021-01-12 16:44:42.677216
-54a549d1-ebf2-4369-8b12-3e073bf4df52	5c3f4735-5bbb-4369-804f-e44795a19552	Não consigo ver nada	Sei lá o que tá acontecendo, depois que eu fiquei cego, não consigo assistir	t	2021-01-13 22:54:22.007887	2021-01-13 22:54:22.007887
 \.
 
 
