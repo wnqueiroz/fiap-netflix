@@ -29,8 +29,8 @@ export class GetAllQuery {
 }
 
 enum TOPICS {
-  MEDIA_SOURCE_WATCHED = 'media_source.watched',
-  MEDIA_SOURCE_GET_REMAINING = 'media_source.get.remaining',
+  USERS_MEDIA_SOURCES_WATCHED = 'users.media_sources.watched',
+  USERS_MEDIA_SOURCES_ANALYZED = 'users.media_sources.analyzed',
 }
 
 @Controller('media-source')
@@ -63,7 +63,7 @@ export class MediaSourceController {
 
     const mediaSource = await this.mediaSourceService.setAsWatched(idUser, id);
 
-    this.client.emit(TOPICS.MEDIA_SOURCE_WATCHED, {
+    this.client.emit(TOPICS.USERS_MEDIA_SOURCES_WATCHED, {
       idUser,
       mediaSource: { ...mediaSource },
     });
@@ -71,7 +71,7 @@ export class MediaSourceController {
     return mediaSource;
   }
 
-  @MessagePattern(TOPICS.MEDIA_SOURCE_WATCHED)
+  @MessagePattern(TOPICS.USERS_MEDIA_SOURCES_WATCHED)
   async getAllTopic(
     @Payload()
     message: {
@@ -88,7 +88,7 @@ export class MediaSourceController {
     );
 
     await this.client
-      .emit(TOPICS.MEDIA_SOURCE_GET_REMAINING, {
+      .emit(TOPICS.USERS_MEDIA_SOURCES_ANALYZED, {
         ...mediaSourceRemainingUnwatched,
       })
       .toPromise(); // use .emit when you want to fire an event from another

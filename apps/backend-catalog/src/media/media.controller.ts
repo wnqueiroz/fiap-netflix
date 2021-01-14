@@ -10,7 +10,7 @@ import { MediaService } from './media.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 enum TOPICS {
-  MEDIA_SOURCE_GET_REMAINING = 'media_source.get.remaining',
+  USERS_MEDIA_SOURCES_ANALYZED = 'users.media_sources.analyzed',
 }
 
 @Controller('media')
@@ -81,7 +81,7 @@ export class MediaController {
     return this.mediaService.likeOrUnlike(idUser, idMedia);
   }
 
-  @MessagePattern(TOPICS.MEDIA_SOURCE_GET_REMAINING)
+  @MessagePattern(TOPICS.USERS_MEDIA_SOURCES_ANALYZED)
   async getAllTopic(
     @Payload()
     message: {
