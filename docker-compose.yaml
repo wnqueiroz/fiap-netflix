@@ -1,5 +1,4 @@
-version: "3.8"
-
+version: "2"
 services:
   postgres:
     image: postgres:13.1
@@ -45,9 +44,7 @@ services:
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
-    deploy:
-      restart_policy:
-        condition: on-failure
+    restart: on-failure
     depends_on:
       - postgres
   backend-support:
@@ -64,9 +61,7 @@ services:
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
-    deploy:
-      restart_policy:
-        condition: on-failure
+    restart: on-failure
     depends_on:
       - postgres
   backend-catalog:
@@ -85,9 +80,7 @@ services:
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
       KAFKA_HOST: ${KAFKA_HOST}
       KAFKA_PORT: ${KAFKA_PORT}
-    deploy:
-      restart_policy:
-        condition: on-failure
+    restart: on-failure
     depends_on:
       - postgres
   backend-media-source:
@@ -106,8 +99,6 @@ services:
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
       KAFKA_HOST: ${KAFKA_HOST}
       KAFKA_PORT: ${KAFKA_PORT}
-    deploy:
-      restart_policy:
-        condition: on-failure
+    restart: on-failure
     depends_on:
       - postgres
