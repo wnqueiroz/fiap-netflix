@@ -1,19 +1,15 @@
 version: "2"
 services:
   postgres:
-    image: postgres:13.1
-    ports:
-      - ${POSTGRES_PORT}:5432
-    volumes:
-      - ./docker/pg-init-scripts:/docker-entrypoint-initdb.d
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: backend_user,backend_support,backend_catalog,backend_media_source
+    extends:
+      file: docker-compose.base.yaml
+      service: postgres
+
   zookeeper:
-    image: wurstmeister/zookeeper:latest
-    ports:
-      - "2181:2181"
+    extends:
+      file: docker-compose.base.yaml
+      service: zookeeper
+
   kafka:
     image: wurstmeister/kafka:2.11-1.1.1
     ports:
@@ -30,8 +26,9 @@ services:
       - zookeeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
   backend-user:
-    build: ./apps/backend-user
+    image: wnqueiroz/fiap-netflix-backend-user:latest
     ports:
       - 9191:8081
     environment:
@@ -47,8 +44,9 @@ services:
     restart: on-failure
     depends_on:
       - postgres
+
   backend-support:
-    build: ./apps/backend-support
+    image: wnqueiroz/fiap-netflix-backend-support:latest
     ports:
       - 9192:8081
     environment:
@@ -64,8 +62,9 @@ services:
     restart: on-failure
     depends_on:
       - postgres
+
   backend-catalog:
-    build: ./apps/backend-catalog
+    image: wnqueiroz/fiap-netflix-backend-catalog:latest
     ports:
       - 9193:8081
     environment:
@@ -83,8 +82,9 @@ services:
     restart: on-failure
     depends_on:
       - postgres
+
   backend-media-source:
-    build: ./apps/backend-media-source
+    image: wnqueiroz/fiap-netflix-backend-media-source:latest
     ports:
       - 9194:8081
     environment:

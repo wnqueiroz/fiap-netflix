@@ -11,7 +11,7 @@ for FILE in $FILES; do
 
     echo "Dumping DB ["$DB_NAME"]..."
 
-    docker-compose -f ../docker-compose.yaml \
+    docker-compose -p "fiap-netflix" -f ./docker-compose.base.yaml \
         --env-file ../.env \
         exec postgres pg_dump -U "$POSTGRES_USER" "$DB_NAME" >./pg-init-scripts/dumps/$DB_NAME.sql
 done
